@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>تفاصيل الطلب - Alvor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <link rel="stylesheet" href="order-details-new.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body data-page-title-prefix="تفاصيل الطلب" class="order-tracking-new-design">
+    <script>(function(){ var p = localStorage.getItem('alvor-site-pattern'); if (p && p !== 'default') document.body.setAttribute('data-site-pattern', p); })();</script>
+    <button onclick="toggleTheme()" id="theme-toggle" class="theme-toggle-btn" aria-label="تبديل الوضع الليلي">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fas fa-box-open"></i> تتبع طلبك بسهولة مع <span class="site-name">Alvor</span></span>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="KEQ5y0IEb8P1M8Bn1yKjqayvzrDv9Qt6Km7Doa1S.avif" alt="Alvor" class="logo-img site-logo">
+                <span class="logo-text site-name">Alvor</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main order-details-page">
+        <section class="order-tracking-new">
+            <div class="container">
+                <div class="order-header">
+                    <a href="index.html" class="btn btn-secondary order-header-back-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        عودة
+                    </a>
+                    <h2>تفاصيل الطلب</h2>
+                </div>
+
+                <div id="orderContent" class="order-content-new">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        جاري تحميل تفاصيل الطلب...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <a href="index.html" id="backBtnFab" class="back-btn-fab" aria-label="العودة للرئيسية">
+        <i class="fas fa-arrow-right"></i>
+    </a>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <span class="site-name">Alvor</span>. جميع الحقوق محفوظة.</p>
+            <div class="footer-admin-links">
+                <a href="admin-login.html">المدير</a>
+                <span class="footer-sep">|</span>
+                <a href="staff-login.html">دخول الموظفين</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="site-settings.js"></script>
+    <script>
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('alvor-theme', theme);
+    }
+    function toggleTheme() {
+      const current = document.body.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    (function() {
+      const saved = localStorage.getItem('alvor-theme');
+      setTheme(saved === 'light' ? 'light' : 'dark');
+    })();
+    var btn = document.getElementById('theme-toggle');
+    var icon = document.getElementById('theme-icon');
+    function updateIcon() {
+      icon.textContent = document.body.getAttribute('data-theme') === 'light' ? '☀️' : '🌙';
+    }
+    var observer = new MutationObserver(updateIcon);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+    btn.addEventListener('click', updateIcon);
+    updateIcon();
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.local.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="local-storage.js"></script>
+    <script src="order-details-new.js"></script>
+</body>
+</html>

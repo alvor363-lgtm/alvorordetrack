@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>الإعدادات — لوحة تحكم المدير - Alvor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <link rel="stylesheet" href="admin-pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="admin-settings" data-page-title-prefix="الإعدادات — لوحة تحكم المدير">
+    <script>(function(){ var p = localStorage.getItem('alvor-site-pattern'); if (p && p !== 'default') document.body.setAttribute('data-site-pattern', p); })();</script>
+    <button onclick="toggleTheme()" id="theme-toggle" class="theme-toggle-btn" aria-label="تبديل الوضع الليلي">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fas fa-box-open"></i> تتبع طلبك بسهولة مع <span class="site-name">Alvor</span></span>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="KEQ5y0IEb8P1M8Bn1yKjqayvzrDv9Qt6Km7Doa1S.avif" alt="Alvor" class="logo-img site-logo">
+                <span class="logo-text site-name">Alvor</span>
+            </a>
+            <nav class="nav admin-nav-admin">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="admin-dashboard.html" class="nav-link">الطلبات</a>
+                <a href="admin-staff.html" class="nav-link">الموظفون</a>
+                <a href="admin-settings.html" class="nav-link active">الإعدادات</a>
+                <button onclick="logout()" class="btn btn-secondary btn-small">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="dashboard">
+            <div class="container">
+                <div class="admin-section-header">
+                    <h2><i class="fas fa-cog"></i> إعدادات الموقع والنمط</h2>
+                </div>
+
+                <div class="admin-card">
+                    <h3>نمط الموقع</h3>
+                    <p class="text-muted" style="margin-bottom:1rem;">يُطبَّق على جميع صفحات الموقع.</p>
+                    <div class="settings-item">
+                        <label>اختر النمط:</label>
+                        <div class="radio-group" id="patternOptions">
+                            <label class="radio-option">
+                                <input type="radio" name="sitePattern" value="default" id="patternDefault">
+                                افتراضي
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="sitePattern" value="ramadan" id="patternRamadan">
+                                رمضان
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="sitePattern" value="eid" id="patternEid">
+                                عيد
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <h3>مظهر الواجهة</h3>
+                    <p class="text-muted" style="margin-bottom:1rem;">الوضع الفاتح أو الداكن لجميع الصفحات.</p>
+                    <div class="settings-item">
+                        <label>الوضع:</label>
+                        <div class="radio-group" id="themeOptions">
+                            <label class="radio-option">
+                                <input type="radio" name="siteTheme" value="dark" id="themeDark">
+                                داكن
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="siteTheme" value="light" id="themeLight">
+                                فاتح
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <h3><i class="fas fa-store"></i> اسم الموقع ومعلومات التواصل</h3>
+                    <p class="text-muted" style="margin-bottom:1rem;">يظهر اسم الموقع والشعار في جميع صفحات الموقع. معلومات التواصل تظهر في الصفحة الرئيسية للزوار.</p>
+                    <div class="settings-grid" style="max-width:500px;">
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="siteNameInput">اسم الموقع</label>
+                            <input type="text" id="siteNameInput" placeholder="مثال: Alvor" value="">
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="logoUrlInput">رابط الشعار (اختياري)</label>
+                            <input type="url" id="logoUrlInput" placeholder="https://example.com/logo.png">
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="logoFileInput">أو رفع صورة الشعار</label>
+                            <input type="file" id="logoFileInput" accept="image/*">
+                            <small class="text-muted">يُستخدم إذا لم تُدخل رابطاً. يُحفظ محلياً في المتصفح.</small>
+                        </div>
+                        <button type="button" id="resetLogoBtn" class="btn btn-secondary settings-apply" style="margin-bottom:1rem;">
+                            <i class="fas fa-undo"></i> استعادة الشعار الافتراضي
+                        </button>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="contactEmailInput">البريد الإلكتروني للتواصل</label>
+                            <input type="email" id="contactEmailInput" placeholder="example@domain.com">
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="contactWhatsappInput">رقم واتساب للتواصل</label>
+                            <input type="text" id="contactWhatsappInput" placeholder="966501234567 (بدون + أو 00)">
+                        </div>
+                        <p id="siteInfoFeedback" class="text-muted" style="margin-top:0.5rem;font-size:0.9rem;"></p>
+                        <button type="button" id="saveSiteInfoBtn" class="btn btn-primary settings-apply">
+                            <i class="fas fa-save"></i>
+                            حفظ اسم الموقع ومعلومات التواصل
+                        </button>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <h3><i class="fas fa-key"></i> تغيير كلمة مرور المدير</h3>
+                    <p class="text-muted" style="margin-bottom:1rem;">غيّر كلمة المرور الخاصة بحساب المدير. ستحتاج إليها في تسجيل الدخول القادم.</p>
+                    <form id="adminPasswordForm" class="settings-grid" style="max-width:400px;">
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="adminCurrentPassword">كلمة المرور الحالية</label>
+                            <input type="password" id="adminCurrentPassword" placeholder="أدخل كلمة المرور الحالية" autocomplete="current-password" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="adminNewPassword">كلمة المرور الجديدة</label>
+                            <input type="password" id="adminNewPassword" placeholder="4 أحرف على الأقل" autocomplete="new-password" required minlength="4">
+                        </div>
+                        <div class="form-group" style="margin-bottom:1rem;">
+                            <label for="adminConfirmPassword">تأكيد كلمة المرور الجديدة</label>
+                            <input type="password" id="adminConfirmPassword" placeholder="أعد إدخال كلمة المرور الجديدة" autocomplete="new-password" required minlength="4">
+                        </div>
+                        <p id="adminPasswordFeedback" class="text-muted" style="margin-top:0.5rem;font-size:0.9rem;"></p>
+                        <button type="submit" class="btn btn-primary settings-apply">
+                            <i class="fas fa-lock"></i>
+                            تغيير كلمة المرور
+                        </button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <button type="button" id="applySettingsBtn" class="btn btn-primary settings-apply">
+                        <i class="fas fa-check"></i>
+                        تطبيق الإعدادات على الموقع
+                    </button>
+                    <p id="settingsFeedback" class="text-muted" style="margin-top:0.75rem;font-size:0.9rem;"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <span class="site-name">Alvor</span>. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="site-settings.js"></script>
+    <script>
+    (function() {
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin-login.html';
+            return;
+        }
+        var pattern = localStorage.getItem('alvor-site-pattern') || 'default';
+        var theme = localStorage.getItem('alvor-theme') || 'dark';
+        document.querySelector('input[name="sitePattern"][value="' + pattern + '"]') && (document.querySelector('input[name="sitePattern"][value="' + pattern + '"]').checked = true);
+        document.querySelector('input[name="siteTheme"][value="' + theme + '"]') && (document.querySelector('input[name="siteTheme"][value="' + theme + '"]').checked = true);
+
+        document.getElementById('applySettingsBtn').addEventListener('click', function() {
+            var p = document.querySelector('input[name="sitePattern"]:checked');
+            var t = document.querySelector('input[name="siteTheme"]:checked');
+            var patternVal = p ? p.value : 'default';
+            var themeVal = t ? t.value : 'dark';
+            localStorage.setItem('alvor-site-pattern', patternVal);
+            localStorage.setItem('alvor-theme', themeVal);
+            if (patternVal === 'default') document.body.removeAttribute('data-site-pattern');
+            else document.body.setAttribute('data-site-pattern', patternVal);
+            document.body.setAttribute('data-theme', themeVal);
+            document.getElementById('settingsFeedback').textContent = 'تم تطبيق الإعدادات. النمط والوضع يُطبَّقان على كل الصفحات.';
+        });
+
+        // اسم الموقع ومعلومات التواصل والشعار
+        document.getElementById('siteNameInput').value = localStorage.getItem('alvor-site-name') || 'Alvor';
+        var savedLogo = localStorage.getItem('alvor-logo-url') || '';
+        if (savedLogo && savedLogo.indexOf('http') === 0) document.getElementById('logoUrlInput').value = savedLogo;
+        document.getElementById('contactEmailInput').value = localStorage.getItem('alvor-contact-email') || '';
+        document.getElementById('contactWhatsappInput').value = localStorage.getItem('alvor-contact-whatsapp') || '';
+        document.getElementById('logoFileInput').addEventListener('change', function() {
+            var file = this.files && this.files[0];
+            if (!file || !file.type.startsWith('image/')) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('alvor-logo-url', e.target.result);
+                if (window.applySiteSettings) applySiteSettings();
+                document.getElementById('siteInfoFeedback').textContent = 'تم رفع الشعار. انقر «حفظ» لتطبيقه على كل الصفحات.';
+                document.getElementById('siteInfoFeedback').style.color = 'var(--alvor-green)';
+            };
+            reader.readAsDataURL(file);
+        });
+        document.getElementById('saveSiteInfoBtn').addEventListener('click', function() {
+            var name = (document.getElementById('siteNameInput').value || '').trim() || 'Alvor';
+            var email = (document.getElementById('contactEmailInput').value || '').trim();
+            var whatsapp = (document.getElementById('contactWhatsappInput').value || '').trim().replace(/\D/g, '');
+            var logoUrl = (document.getElementById('logoUrlInput').value || '').trim();
+            localStorage.setItem('alvor-site-name', name);
+            localStorage.setItem('alvor-contact-email', email);
+            localStorage.setItem('alvor-contact-whatsapp', whatsapp);
+            if (logoUrl) localStorage.setItem('alvor-logo-url', logoUrl);
+            else localStorage.setItem('alvor-logo-url', '');
+            if (window.applySiteSettings) applySiteSettings();
+            var feedback = document.getElementById('siteInfoFeedback');
+            feedback.textContent = 'تم الحفظ. اسم الموقع والشعار ومعلومات التواصل تُطبَّق على كل الصفحات.';
+            feedback.style.color = 'var(--alvor-green)';
+        });
+        document.getElementById('resetLogoBtn').addEventListener('click', function() {
+            localStorage.removeItem('alvor-logo-url');
+            document.getElementById('logoUrlInput').value = '';
+            document.getElementById('logoFileInput').value = '';
+            if (window.applySiteSettings) applySiteSettings();
+            document.getElementById('siteInfoFeedback').textContent = 'تم استعادة الشعار الافتراضي.';
+            document.getElementById('siteInfoFeedback').style.color = 'var(--alvor-green)';
+        });
+
+        // تغيير كلمة مرور المدير
+        function getStoredAdminPassword() {
+            return localStorage.getItem('alvor-admin-password') || 'admin123';
+        }
+        document.getElementById('adminPasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var current = document.getElementById('adminCurrentPassword').value;
+            var newP = document.getElementById('adminNewPassword').value;
+            var confirmP = document.getElementById('adminConfirmPassword').value;
+            var feedback = document.getElementById('adminPasswordFeedback');
+            if (current !== getStoredAdminPassword()) {
+                feedback.textContent = 'كلمة المرور الحالية غير صحيحة.';
+                feedback.style.color = 'var(--alvor-error, #e74c3c)';
+                return;
+            }
+            if (newP.length < 4) {
+                feedback.textContent = 'كلمة المرور الجديدة يجب أن تكون 4 أحرف على الأقل.';
+                feedback.style.color = 'var(--alvor-error, #e74c3c)';
+                return;
+            }
+            if (newP !== confirmP) {
+                feedback.textContent = 'كلمة المرور الجديدة وتأكيدها غير متطابقتين.';
+                feedback.style.color = 'var(--alvor-error, #e74c3c)';
+                return;
+            }
+            localStorage.setItem('alvor-admin-password', newP);
+            feedback.textContent = 'تم تغيير كلمة المرور بنجاح. استخدمها في الدخول القادم.';
+            feedback.style.color = 'var(--alvor-green)';
+            document.getElementById('adminPasswordForm').reset();
+        });
+    })();
+    function setTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('alvor-theme', theme);
+    }
+    function toggleTheme() {
+        var current = document.body.getAttribute('data-theme') || 'dark';
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    (function() {
+        var saved = localStorage.getItem('alvor-theme');
+        var pattern = localStorage.getItem('alvor-site-pattern');
+        setTheme(saved === 'light' ? 'light' : 'dark');
+        if (pattern && pattern !== 'default') document.body.setAttribute('data-site-pattern', pattern);
+    })();
+    var btn = document.getElementById('theme-toggle');
+    var icon = document.getElementById('theme-icon');
+    function updateIcon() {
+        if (icon) icon.textContent = document.body.getAttribute('data-theme') === 'light' ? '☀️' : '🌙';
+    }
+    if (btn && icon) {
+        var observer = new MutationObserver(updateIcon);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+        btn.addEventListener('click', updateIcon);
+        updateIcon();
+    }
+    function logout() {
+        localStorage.removeItem('adminLoggedIn');
+        localStorage.removeItem('loginTime');
+        window.location.href = 'admin-login.html';
+    }
+    window.logout = logout;
+    </script>
+</body>
+</html>

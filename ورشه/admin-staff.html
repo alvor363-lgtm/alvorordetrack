@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>الموظفون — لوحة تحكم المدير - Alvor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <link rel="stylesheet" href="admin-pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="admin-staff" data-page-title-prefix="الموظفون — لوحة تحكم المدير">
+    <script>(function(){ var p = localStorage.getItem('alvor-site-pattern'); if (p && p !== 'default') document.body.setAttribute('data-site-pattern', p); })();</script>
+    <button onclick="toggleTheme()" id="theme-toggle" class="theme-toggle-btn" aria-label="تبديل الوضع الليلي">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fas fa-box-open"></i> تتبع طلبك بسهولة مع <span class="site-name">Alvor</span></span>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="KEQ5y0IEb8P1M8Bn1yKjqayvzrDv9Qt6Km7Doa1S.avif" alt="Alvor" class="logo-img site-logo">
+                <span class="logo-text site-name">Alvor</span>
+            </a>
+            <nav class="nav admin-nav-admin">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="admin-dashboard.html" class="nav-link">الطلبات</a>
+                <a href="admin-staff.html" class="nav-link active">الموظفون</a>
+                <a href="admin-settings.html" class="nav-link">الإعدادات</a>
+                <button onclick="logout()" class="btn btn-secondary btn-small">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main admin-main">
+        <section class="dashboard">
+            <div class="container">
+                <div class="admin-section-header dashboard-header">
+                    <h2>الموظفون — إضافة موظف ومتابعة الموظفين</h2>
+                    <div class="dashboard-header-actions">
+                        <button onclick="showAddStaffModal()" class="btn btn-primary btn-add-staff">
+                            <i class="fas fa-user-plus"></i>
+                            إضافة موظف
+                        </button>
+                    </div>
+                </div>
+
+                <div class="admin-card staff-table-container">
+                    <table class="staff-table orders-table">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>اسم المستخدم</th>
+                                <th>الدور</th>
+                                <th>الهاتف</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="staffTableBody">
+                            <tr>
+                                <td colspan="6" class="loading-row">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    جاري تحميل الموظفين...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- زر إضافة موظف ثابت للجوال -->
+    <button onclick="showAddStaffModal()" id="addStaffFab" class="add-staff-fab" aria-label="إضافة موظف">
+        <i class="fas fa-user-plus"></i>
+    </button>
+
+    <!-- Add Staff Modal -->
+    <div id="addStaffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>إضافة موظف جديد</h3>
+                <button onclick="closeAddStaffModal()" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addStaffForm" class="modal-form">
+                <div class="form-group">
+                    <label for="staffName">الاسم</label>
+                    <input type="text" id="staffName" placeholder="اسم الموظف" required>
+                </div>
+                <div class="form-group">
+                    <label for="staffUsername">اسم المستخدم (للدخول)</label>
+                    <input type="text" id="staffUsername" placeholder="مثال: ahmed" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="staffPassword">كلمة المرور</label>
+                    <input type="password" id="staffPassword" placeholder="كلمة مرور الدخول" required autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="staffRole">الدور / الوظيفة</label>
+                    <input type="text" id="staffRole" placeholder="مثال: نجار، مسؤول طلبات" required>
+                </div>
+                <div class="form-group">
+                    <label for="staffPhone">رقم الهاتف</label>
+                    <input type="tel" id="staffPhone" placeholder="05xxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label for="staffNotes">ملاحظات</label>
+                    <textarea id="staffNotes" rows="2" placeholder="اختياري"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddStaffModal()" class="btn btn-secondary">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">إضافة الموظف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Staff Password Modal -->
+    <div id="resetStaffPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>إعادة تعيين كلمة مرور الموظف</h3>
+                <button onclick="closeResetStaffPasswordModal()" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="resetStaffPasswordForm" class="modal-form">
+                <input type="hidden" id="resetStaffId">
+                <p id="resetStaffNameDisplay" class="text-muted" style="margin-bottom:1rem;"></p>
+                <div class="form-group">
+                    <label for="resetStaffNewPassword">كلمة المرور الجديدة</label>
+                    <input type="password" id="resetStaffNewPassword" placeholder="4 أحرف على الأقل" required minlength="4" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="resetStaffConfirmPassword">تأكيد كلمة المرور</label>
+                    <input type="password" id="resetStaffConfirmPassword" placeholder="أعد إدخال كلمة المرور" required minlength="4" autocomplete="new-password">
+                </div>
+                <p id="resetStaffPasswordFeedback" class="text-muted" style="font-size:0.9rem;margin-bottom:0.5rem;"></p>
+                <div class="form-actions">
+                    <button type="button" onclick="closeResetStaffPasswordModal()" class="btn btn-secondary">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">إعادة تعيين كلمة المرور</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Staff Modal -->
+    <div id="editStaffModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تعديل بيانات الموظف</h3>
+                <button onclick="closeEditStaffModal()" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editStaffForm" class="modal-form">
+                <input type="hidden" id="editStaffId">
+                <div class="form-group">
+                    <label for="editStaffName">الاسم</label>
+                    <input type="text" id="editStaffName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editStaffUsername">اسم المستخدم (للدخول)</label>
+                    <input type="text" id="editStaffUsername" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="editStaffPassword">كلمة مرور جديدة (اتركها فارغة إذا لا تريد التغيير)</label>
+                    <input type="password" id="editStaffPassword" placeholder="فارغ = عدم التغيير" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="editStaffRole">الدور / الوظيفة</label>
+                    <input type="text" id="editStaffRole" required>
+                </div>
+                <div class="form-group">
+                    <label for="editStaffPhone">رقم الهاتف</label>
+                    <input type="tel" id="editStaffPhone">
+                </div>
+                <div class="form-group">
+                    <label for="editStaffNotes">ملاحظات</label>
+                    <textarea id="editStaffNotes" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="radio-option">
+                        <input type="checkbox" id="editStaffActive" checked>
+                        نشط
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeEditStaffModal()" class="btn btn-secondary">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <span class="site-name">Alvor</span>. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="site-settings.js"></script>
+    <script src="firebase-config.local.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="local-storage.js"></script>
+    <script src="admin-staff.js"></script>
+    <script>
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('alvor-theme', theme);
+    }
+    function toggleTheme() {
+      var current = document.body.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    (function() {
+      var saved = localStorage.getItem('alvor-theme');
+      setTheme(saved === 'light' ? 'light' : 'dark');
+    })();
+    var btn = document.getElementById('theme-toggle');
+    var icon = document.getElementById('theme-icon');
+    function updateIcon() {
+      icon.textContent = document.body.getAttribute('data-theme') === 'light' ? '☀️' : '🌙';
+    }
+    if (btn && icon) {
+      var observer = new MutationObserver(updateIcon);
+      observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+      btn.addEventListener('click', updateIcon);
+      updateIcon();
+    }
+    </script>
+</body>
+</html>

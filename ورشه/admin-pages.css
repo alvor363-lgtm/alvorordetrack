@@ -1,0 +1,112 @@
+/* غرفة الأدمن — ألوان الڤور الموحدة */
+.admin-section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.admin-section-header h2 {
+    margin: 0;
+    font-size: 1.35rem;
+    color: inherit;
+}
+.admin-nav-admin .nav-link.active {
+    font-weight: 600;
+}
+.admin-card {
+    background: var(--alvor-dark-card, #111);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--alvor-dark-border, #222);
+}
+body[data-theme="light"] .admin-card {
+    background: var(--alvor-light-card);
+    border-color: var(--alvor-light-border);
+}
+.admin-card h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: inherit;
+}
+.staff-table-container {
+    overflow-x: auto;
+}
+.staff-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.staff-table th,
+.staff-table td {
+    padding: 0.75rem 1rem;
+    text-align: right;
+    border-bottom: 1px solid var(--alvor-dark-border, rgba(255,255,255,0.08));
+}
+body[data-theme="light"] .staff-table th,
+body[data-theme="light"] .staff-table td {
+    border-bottom-color: var(--alvor-light-border);
+}
+.staff-table th {
+    font-weight: 600;
+    color: var(--alvor-dark-muted, #888);
+}
+body[data-theme="light"] .staff-table th {
+    color: var(--alvor-light-muted);
+}
+.staff-table tr:hover td {
+    background: rgba(164, 219, 56, 0.06);
+}
+.staff-table .status-active { color: var(--alvor-green); }
+.staff-table .status-inactive { color: var(--alvor-dark-muted, #888); }
+body[data-theme="light"] .staff-table .status-inactive { color: var(--alvor-light-muted); }
+.settings-grid {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 600px;
+}
+.settings-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.settings-item label {
+    font-weight: 500;
+    color: inherit;
+}
+.settings-item select,
+.settings-item .radio-group {
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--alvor-dark-border, rgba(255,255,255,0.15));
+    background: var(--alvor-dark-card, #252525);
+    color: inherit;
+}
+body[data-theme="light"] .settings-item select,
+body[data-theme="light"] .settings-item .radio-group {
+    border-color: var(--alvor-light-border);
+    background: var(--alvor-light-bg);
+    color: var(--alvor-light-text);
+}
+.settings-item .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.settings-item .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+.settings-item .radio-option input { margin: 0; }
+.settings-apply {
+    margin-top: 0.5rem;
+}
+.text-muted {
+    color: var(--alvor-dark-muted, #888);
+}
+body[data-theme="light"] .text-muted {
+    color: var(--alvor-light-muted);
+}

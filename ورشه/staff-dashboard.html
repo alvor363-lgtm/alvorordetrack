@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>لوحة الموظف - Alvor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <link rel="stylesheet" href="admin-pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="staff-dashboard" data-page-title-prefix="لوحة الموظف">
+    <script>(function(){ var p = localStorage.getItem('alvor-site-pattern'); if (p && p !== 'default') document.body.setAttribute('data-site-pattern', p); })();</script>
+    <button onclick="toggleTheme()" id="theme-toggle" class="theme-toggle-btn" aria-label="تبديل الوضع الليلي">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fas fa-box-open"></i> تتبع طلبك بسهولة مع <span class="site-name">Alvor</span></span>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="KEQ5y0IEb8P1M8Bn1yKjqayvzrDv9Qt6Km7Doa1S.avif" alt="Alvor" class="logo-img site-logo">
+                <span class="logo-text site-name">Alvor</span>
+            </a>
+            <nav class="nav">
+                <span class="nav-link" style="cursor:default;"><i class="fas fa-user-tie"></i> <span id="staffWelcomeName"></span></span>
+                <a href="staff-dashboard.html" class="nav-link active">الطلبات</a>
+                <a href="staff-orders-completed.html" class="nav-link">تم الإنجاز</a>
+                <button onclick="staffLogout()" class="btn btn-secondary btn-small">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main admin-main">
+        <section class="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h2>الطلبات — إضافة طلب جديد ومتابعة الطلبات</h2>
+                    <div class="dashboard-header-toolbar">
+                        <div class="order-search-wrap">
+                            <i class="fas fa-search order-search-icon"></i>
+                            <input type="text" id="orderSearchInput" class="order-search-input" placeholder="ابحث برقم الطلب..." inputmode="numeric" autocomplete="off">
+                        </div>
+                        <div class="dashboard-header-actions">
+                            <button onclick="showAddOrderModal()" class="btn btn-primary btn-add-order">
+                                <i class="fas fa-plus"></i>
+                                إضافة طلب جديد
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="orders-table-container">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>الحالة</th>
+                                <th>آخر تحديث</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr>
+                                <td colspan="4" class="loading-row">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    جاري تحميل الطلبات...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="margin-top:1rem;">
+                    <a href="staff-orders-completed.html" class="btn btn-secondary">
+                        <i class="fas fa-check-circle"></i>
+                        عرض تم الإنجاز / تم التسليم
+                    </a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- زر إضافة طلب ثابت للجوال -->
+    <button onclick="showAddOrderModal()" id="addOrderFab" class="add-order-fab" aria-label="إضافة طلب جديد">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Add Order Modal (نفس المدير) -->
+    <div id="addOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>إضافة طلب جديد</h3>
+                <button onclick="closeAddOrderModal()" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addOrderForm" class="modal-form">
+                <div class="form-group">
+                    <label for="newOrderNumber">رقم الطلب</label>
+                    <input type="text" id="newOrderNumber" placeholder="مثال: 123456" required pattern="[0-9]+" title="أرقام فقط" inputmode="numeric">
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeAddOrderModal()" class="btn btn-secondary">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">إضافة الطلب</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Order Modal (نفس المدير) -->
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تعديل حالة الطلب</h3>
+                <button onclick="closeEditOrderModal()" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editOrderForm" class="modal-form">
+                <input type="hidden" id="editOrderNumber">
+                <div class="form-group">
+                    <label for="orderStatus">الحالة الحالية</label>
+                    <select id="orderStatus" required>
+                        <option value="in-progress">بدينا نشتغل على طلبك</option>
+                        <option value="finishing">قاعدين نضبطه</option>
+                        <option value="ready">خلص طلبك</option>
+                        <option value="wrapping">تم تغليف الطلب</option>
+                        <option value="delivered">طلع لك</option>
+                    </select>
+                </div>
+                <div class="stages-uploads">
+                    <h4>صور المراحل</h4>
+                    <div id="stageUploads"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeEditOrderModal()" class="btn btn-secondary">إلغاء</button>
+                    <button type="submit" class="btn btn-primary">تحديث الطلب</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <span class="site-name">Alvor</span>. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="site-settings.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="firebase-config.local.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="local-storage.js"></script>
+    <script src="orders-shared.js"></script>
+    <script src="staff-dashboard.js"></script>
+    <script>
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('alvor-theme', theme);
+    }
+    function toggleTheme() {
+      var current = document.body.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    (function() {
+      var saved = localStorage.getItem('alvor-theme');
+      setTheme(saved === 'light' ? 'light' : 'dark');
+    })();
+    var btn = document.getElementById('theme-toggle');
+    var icon = document.getElementById('theme-icon');
+    function updateIcon() {
+      if (icon) icon.textContent = document.body.getAttribute('data-theme') === 'light' ? '☀️' : '🌙';
+    }
+    if (btn && icon) {
+      var observer = new MutationObserver(updateIcon);
+      observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+      btn.addEventListener('click', updateIcon);
+      updateIcon();
+    }
+    function staffLogout() {
+      localStorage.removeItem('staffLoggedIn');
+      localStorage.removeItem('staffId');
+      localStorage.removeItem('staffName');
+      localStorage.removeItem('staffLoginTime');
+      window.location.href = 'staff-login.html';
+    }
+    window.staffLogout = staffLogout;
+    </script>
+</body>
+</html>

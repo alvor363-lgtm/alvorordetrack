@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دخول الموظفين - Alvor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body data-page-title-prefix="دخول الموظفين">
+    <script>(function(){ var p = localStorage.getItem('alvor-site-pattern'); if (p && p !== 'default') document.body.setAttribute('data-site-pattern', p); })();</script>
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fas fa-box-open"></i> تتبع طلبك بسهولة مع <span class="site-name">Alvor</span></span>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="KEQ5y0IEb8P1M8Bn1yKjqayvzrDv9Qt6Km7Doa1S.avif" alt="Alvor" class="logo-img site-logo" style="height:36px;">
+                <span class="logo-text site-name">Alvor</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="admin-login.html" class="nav-link">المدير</a>
+                <a href="staff-login.html" class="nav-link active">دخول الموظفين</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="login-section">
+            <div class="container">
+                <div class="login-card">
+                    <h2><i class="fas fa-user-tie"></i> دخول الموظفين</h2>
+                    <p>ادخل باسم المستخدم وكلمة المرور التي أعطاك إياها المدير</p>
+                    
+                    <form id="staffLoginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="staffUsername">اسم المستخدم</label>
+                            <input type="text" id="staffUsername" placeholder="اسم المستخدم" required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="staffPassword">كلمة المرور</label>
+                            <input type="password" id="staffPassword" placeholder="كلمة المرور" required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-sign-in-alt"></i>
+                            تسجيل الدخول
+                        </button>
+                    </form>
+
+                    <div id="staffLoginError" class="error-message" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="staffLoginErrorText"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <span class="site-name">Alvor</span>. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <button onclick="toggleTheme()" id="theme-toggle" class="theme-toggle-btn" aria-label="تبديل الوضع الليلي">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <script src="site-settings.js"></script>
+    <script src="local-storage.js"></script>
+    <script src="staff-login.js"></script>
+    <script>
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('alvor-theme', theme);
+    }
+    function toggleTheme() {
+      var current = document.body.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    (function() {
+      var saved = localStorage.getItem('alvor-theme');
+      setTheme(saved === 'light' ? 'light' : 'dark');
+    })();
+    var btn = document.getElementById('theme-toggle');
+    var icon = document.getElementById('theme-icon');
+    if (btn && icon) {
+      function updateIcon() { icon.textContent = document.body.getAttribute('data-theme') === 'light' ? '☀️' : '🌙'; }
+      var observer = new MutationObserver(updateIcon);
+      observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+      btn.addEventListener('click', updateIcon);
+      updateIcon();
+    }
+    </script>
+</body>
+</html>

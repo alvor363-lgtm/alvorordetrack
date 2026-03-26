@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل دخول المدير - Alvor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="admin-login" data-page-title-prefix="تسجيل دخول المدير">
+    <script>(function(){ var p = localStorage.getItem('alvor-site-pattern'); if (p && p !== 'default') document.body.setAttribute('data-site-pattern', p); })();</script>
+    <button onclick="toggleTheme()" id="theme-toggle" class="theme-toggle-btn" aria-label="تبديل الوضع الليلي">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fas fa-box-open"></i> تتبع طلبك بسهولة مع <span class="site-name">Alvor</span></span>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="KEQ5y0IEb8P1M8Bn1yKjqayvzrDv9Qt6Km7Doa1S.avif" alt="Alvor" class="logo-img site-logo">
+                <span class="logo-text site-name">Alvor</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="admin-login.html" class="nav-link active">المدير</a>
+                <a href="staff-login.html" class="nav-link">دخول الموظفين</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="login-section">
+            <div class="container">
+                <div class="login-card">
+                    <h2>تسجيل دخول المدير</h2>
+                    <p>الوصول إلى لوحة التحكم لإدارة الطلبات</p>
+                    
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="username">اسم المستخدم</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                placeholder="أدخل اسم المستخدم" 
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">كلمة المرور</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                placeholder="أدخل كلمة المرور" 
+                                required
+                            >
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-sign-in-alt"></i>
+                            تسجيل الدخول
+                        </button>
+                    </form>
+
+                    <div id="loginError" class="error-message" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="loginErrorText"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <span class="site-name">Alvor</span>. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="site-settings.js"></script>
+    <script>
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('alvor-theme', theme);
+    }
+    function toggleTheme() {
+      const current = document.body.getAttribute('data-theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    (function() {
+      const saved = localStorage.getItem('alvor-theme');
+      setTheme(saved === 'light' ? 'light' : 'dark');
+    })();
+    // Change icon on toggle
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    function updateIcon() {
+      icon.textContent = document.body.getAttribute('data-theme') === 'light' ? '☀️' : '🌙';
+    }
+    const observer = new MutationObserver(updateIcon);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+    btn.addEventListener('click', updateIcon);
+    updateIcon();
+    </script>
+    <script src="admin-login.js"></script>
+</body>
+</html>
